@@ -1,0 +1,66 @@
+import {
+    create,
+    NButton,
+    NCard,
+    NForm,
+    NFormItem,
+    NInput,
+    NInputNumber,
+    NSelect,
+    NSpace,
+    NMessageProvider,
+    NNotificationProvider,
+    NDialogProvider,
+    NMenu,
+    NGrid,
+    NScrollbar,
+    NGi,
+    NText,
+    NDataTable,
+    NDropdown,
+    NCheckbox,
+    NRow,
+    NStatistic,
+    NDivider,
+    NTag,
+    NTab,
+    NTabs, NTabPane, NModal, NResult
+} from 'naive-ui';
+import {App} from 'vue';
+
+const naive = create({
+    components: [
+        NButton,
+        NForm,
+        NFormItem,
+        NInput,
+        NInputNumber,
+        NSelect,
+        NSpace,
+        NCard,
+        NMessageProvider,
+        NNotificationProvider,
+        NDialogProvider,
+        NMenu,
+        NScrollbar,
+        NGrid,
+        NGi,
+        NText,
+        NDataTable,
+        NDropdown,
+        NCheckbox,
+        NRow,
+        NStatistic,
+        NDivider,
+        NTag,
+        NTab,
+        NTabs,
+        NTabPane,
+        NModal,
+        NResult,
+    ],
+});
+
+export function installNaive(app: App<Element>) {
+    app.use(naive);
+}

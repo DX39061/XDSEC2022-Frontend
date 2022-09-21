@@ -1,10 +1,27 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+    <navigation-bar/>
+  <div id="pages">
+    <n-message-provider>
+      <n-notification-provider>
+        <n-dialog-provider>
+          <wrapped-content/>
+        </n-dialog-provider>
+      </n-notification-provider>
+    </n-message-provider>
+  </div>
 </template>
+
+<script lang="ts">
+import WrappedContent from "@/views/WrappedContent.vue";
+import NavigationBar from "@/components/NavigationBar.vue";
+import setupWithToken from "@/api/token";
+export default {
+  components: {NavigationBar, WrappedContent},
+  setup() {
+    setupWithToken()
+  },
+}
+</script>
 
 <style lang="scss">
 #app {

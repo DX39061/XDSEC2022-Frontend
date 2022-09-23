@@ -17,9 +17,14 @@
             <n-input type="password" show-password-on="click" v-model:value="formValue.password"
                      placeholder="请输入你报名时设置的密码"/>
           </n-form-item>
+          <n-form-item label="请等待验证码加载进行人机验证">
+            <vue-recaptcha
+                @verify="captchaVerifyHandler($event)"
+            />
+          </n-form-item>
         </n-space>
         <n-space justify="space-between">
-          <n-button :disabled="isLogin" @click="loginHandler">登录</n-button>
+          <n-button :disabled="isLogin || !captchaVerified" @click="loginHandler">登录</n-button>
           <n-button @click="$router.push('/join')">去报名</n-button>
         </n-space>
       </n-form>
@@ -33,11 +38,31 @@
 import {defineComponent, ref} from 'vue'
 import {FormInst} from "naive-ui";
 import {login, LoginRequest} from "@/api/account";
+import {VueRecaptcha} from "vue3-recaptcha-v2";
+import {verifyCaptcha, VerifyCaptchaRequest} from "@/api/captcha";
 
 export default defineComponent({
+  components: {VueRecaptcha},
   methods: {
+    captchaVerifyHandler(response: string) {
+      const verifyCaptchaRequest: VerifyCaptchaRequest = {
+        token: response
+      }
+      verifyCaptcha(verifyCaptchaRequest).then((captchaVerified: boolean) => {
+        if (captchaVerified) {
+          this.captchaVerified = true
+          window.$message.success('验证码验证成功')
+        } else {
+          this.captchaVerified = false
+          window.$message.error('验证码验证失败')
+        }
+      }).catch((err: Error) => {
+        this.captchaVerified = false
+        window.$message.error('验证码验证失败 ' + err.message)
+      })
+    },
     disableLogin() {
-      if(this.isLogin) {
+      if (this.isLogin) {
         window.$message.destroyAll()
         window.$message.info('您已登录帐号')
       }
@@ -75,9 +100,11 @@ export default defineComponent({
   setup() {
     const formRef = ref<FormInst | null>(null)
     const isLogin = ref(false)
+    const captchaVerified = ref(false)
     return {
       isLogin,
       formRef,
+      captchaVerified,
       formValue: ref({
         account: '',
         password: ''
@@ -102,7 +129,7 @@ export default defineComponent({
 
 <style lang="sass">
 .login-card
-  max-width: 400px
+  max-width: 500px
   margin: 2rem auto
 
 </style>

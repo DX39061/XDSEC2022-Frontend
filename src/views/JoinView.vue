@@ -46,6 +46,11 @@
           <n-input type="password" show-password-on="click" v-model:value="formValue.password"
                    placeholder="该密码用来登陆此报名系统修改信息"/>
         </n-form-item>
+        <n-form-item label="请等待验证码加载进行人机验证">
+          <vue-recaptcha
+            @verify="captchaVerifyHandler($event)"
+          />
+        </n-form-item>
         <n-form-item label="意向部门" path="department">
           <n-select
               v-model:value="formValue.department"
@@ -76,7 +81,7 @@
                    placeholder="可以是你的才艺，当然也可以是你获得过的荣誉"/>
         </n-form-item>
         <n-space justify="space-between">
-          <n-button size="large" @click="joinHandler" :disabled="isLogin">提交报名信息</n-button>
+          <n-button size="large" @click="joinHandler" :disabled="isLogin || !captchaVerified">提交报名信息</n-button>
           <n-button size="large" @click="$router.push('/login')" :disabled="isLogin">已报名，去登陆</n-button>
         </n-space>
 
@@ -91,10 +96,30 @@
 import {FormItemRule, FormInst} from 'naive-ui'
 import {defineComponent, ref} from 'vue'
 import {join, JoinRequest} from "@/api/account";
+import {VueRecaptcha} from "vue3-recaptcha-v2";
+import { verifyCaptcha, VerifyCaptchaRequest } from '@/api/captcha';
 
 export default defineComponent({
   name: 'join-view',
+  components: {VueRecaptcha},
   methods: {
+    captchaVerifyHandler(response: string) {
+      const verifyCaptchaRequest: VerifyCaptchaRequest = {
+        token: response
+      }
+      verifyCaptcha(verifyCaptchaRequest).then((captchaVerified: boolean) => {
+        if (captchaVerified) {
+          this.captchaVerified = true
+          window.$message.success('验证码验证成功')
+        } else {
+          this.captchaVerified = false
+          window.$message.error('验证码验证失败')
+        }
+      }).catch((err: Error) => {
+        this.captchaVerified = false
+        window.$message.error('验证码验证失败 ' + err.message)
+      })
+    },
     joinHandler() {
       window.$message.loading('提交中，请稍候...')
       if (!this.formRef) {
@@ -140,8 +165,10 @@ export default defineComponent({
   setup() {
     const formRef = ref<FormInst | null>(null)
     const isLogin = ref(false)
+    const captchaVerified = ref(false)
     return {
       isLogin,
+      captchaVerified,
       formRef,
       formValue: ref({
             nickName: '',

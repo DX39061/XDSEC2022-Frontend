@@ -7,6 +7,7 @@ export interface JoinRequest {
     sex: string;
     major: string;
     'student-id': string;
+    qq: string;
     telephone: string;
     email: string;
     password: string;
@@ -50,6 +51,7 @@ export interface UpdateProfileRequest {
     major: string;               // 学院/专业
     'student-id': string;
     telephone: string;
+    qq: string;
     email: string;
     department: string;          // 意向部门
     direction: string;           // 学习方向
@@ -89,6 +91,7 @@ export interface SelfProfileResponse {
     sex: string;
     major: string;               // 学院/专业
     'student-id': string;
+    qq: string;
     telephone: string;
     email: string;
     department: string;          // 意向部门

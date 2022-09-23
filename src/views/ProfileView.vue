@@ -37,9 +37,14 @@
             <n-input v-model:value="formValue.email" placeholder="请输入你的邮箱" style="min-width: 250px"/>
           </n-form-item>
         </n-space>
-        <n-form-item label="昵称" path="nickName">
-          <n-input v-model:value="formValue.nickName" placeholder="请输入你的昵称" style="min-width: 250px"/>
-        </n-form-item>
+        <n-space justify="space-between">
+          <n-form-item label="昵称" path="nickName">
+            <n-input v-model:value="formValue.nickName" placeholder="请输入你的昵称" style="min-width: 250px"/>
+          </n-form-item>
+          <n-form-item label="QQ" path="qq">
+            <n-input v-model:value="formValue.qq" placeholder="请输入你的QQ号"  style="min-width: 250px"/>
+          </n-form-item>
+        </n-space>
         <n-form-item label="意向部门" path="department">
           <n-select
               v-model:value="formValue.department"
@@ -97,6 +102,7 @@ export default defineComponent({
         major: this.formValue.major,
         'student-id': this.formValue.studentID,
         telephone: this.formValue.telephone,
+        qq: this.formValue.qq,
         email: this.formValue.email,
         department: this.formValue.department,
         direction: this.formValue.direction,
@@ -127,6 +133,7 @@ export default defineComponent({
             major: '',
             studentID: '',
             telephone: '',
+            qq: '',
             email: '',
             department: '',
             direction: '',
@@ -259,6 +266,10 @@ export default defineComponent({
           message: '给自己起一个别具一格的昵称吧',
           required: true
         },
+        qq: {
+          message: '请输入你的QQ号',
+          required: true
+        },
         department: {
           message: '请选择你的意向部门',
           required: true
@@ -279,6 +290,7 @@ export default defineComponent({
       this.formValue.major = resp.major
       this.formValue.studentID = resp["student-id"]
       this.formValue.telephone = resp.telephone
+      this.formValue.qq = resp.qq
       this.formValue.email = resp.email
       this.formValue.direction = resp.direction
       this.formValue.department = resp.department

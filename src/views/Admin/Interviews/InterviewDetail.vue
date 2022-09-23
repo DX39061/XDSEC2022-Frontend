@@ -35,6 +35,9 @@
             <n-form-item label="昵称" path="nickName">
               <n-text style="min-width: 250px">{{ formValue.nickName }}</n-text>
             </n-form-item>
+            <n-form-item label="QQ" path="qq">
+              <n-text style="min-width: 250px">{{ formValue.qq }}</n-text>
+            </n-form-item>
           </n-space>
           <n-space justify="space-between">
             <n-form-item label="意向部门" path="department">
@@ -222,6 +225,7 @@ export default defineComponent({
             major: '',
             studentID: '',
             telephone: '',
+            qq: '',
             email: '',
             department: '',
             direction: '',
@@ -253,6 +257,7 @@ export default defineComponent({
         this.formValue.major = resp.major
         this.formValue.studentID = resp["student-id"]
         this.formValue.telephone = resp.telephone
+        this.formValue.qq = resp.qq
         this.formValue.email = resp.email
         this.formValue.direction = resp.direction
         this.formValue.department = resp.department

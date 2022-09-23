@@ -38,10 +38,14 @@
             <n-input v-model:value="formValue.email" placeholder="请输入你的邮箱" style="min-width: 250px"/>
           </n-form-item>
         </n-space>
-
-        <n-form-item label="昵称" path="nickName">
-          <n-input v-model:value="formValue.nickName" placeholder="请输入你的昵称" style="min-width: 250px"/>
-        </n-form-item>
+        <n-space justify="space-between">
+          <n-form-item label="昵称" path="nickName">
+            <n-input v-model:value="formValue.nickName" placeholder="请输入你的昵称" style="min-width: 250px"/>
+          </n-form-item>
+          <n-form-item label="QQ" path="qq">
+            <n-input v-model:value="formValue.qq" placeholder="请输入你的QQ号" style="min-width: 250px"/>
+          </n-form-item>
+        </n-space>
         <n-form-item label="密码" path="password">
           <n-input type="password" show-password-on="click" v-model:value="formValue.password"
                    placeholder="该密码用来登陆此报名系统修改信息"/>
@@ -140,6 +144,7 @@ export default defineComponent({
           major: this.formValue.major,
           'student-id': this.formValue.studentID,
           telephone: this.formValue.telephone,
+          qq: this.formValue.qq,
           email: this.formValue.email,
           password: this.formValue.password,
           department: this.formValue.department,
@@ -177,6 +182,7 @@ export default defineComponent({
             major: '',
             studentID: '',
             telephone: '',
+            qq: '',
             email: '',
             password: '',
             department: '',
@@ -309,6 +315,10 @@ export default defineComponent({
         nickName: {
           message: '给自己起一个别具一格的昵称吧',
           required: true,
+        },
+        qq: {
+          message: '请输入你的QQ号',
+          required: true
         },
         password: {
           required: true,

@@ -33,6 +33,7 @@ export interface UserDetailResponse {
     sex: string;
     major: string;
     "student-id": string;
+    qq: string;
     telephone: string;
     email: string;
     department: string;
@@ -60,6 +61,7 @@ export interface UpdateUserProfileRequest {
     major: string;
     "student-id": string;
     telephone: string;
+    qq: string;
     email: string;
     department: string;
     direction: string;

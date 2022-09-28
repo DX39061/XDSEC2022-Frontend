@@ -24,7 +24,7 @@ import {logout} from "@/api/account";
 export default defineComponent({
   name: "Navigation-bar",
   setup() {
-    const joinRouter = ref('/join')
+    const joinRouter = ref('/profile')
     const isAdmin = ref(false)
     const isLogin = ref(false)
     const userName = ref('')
@@ -77,15 +77,12 @@ export default defineComponent({
     this.adminOptions[0].show = this.isAdmin
     this.adminOptions[1].show = this.isAdmin
     this.adminOptions[2].show = this.isAdmin
-    this.joinRouter = this.isLogin ? '/profile' : '/join'
-    if (location.href.search('/login') != -1 && this.joinRouter == '/profile') {
-      router.push('/profile')
+    if ((this.isLogin && this.joinRouter == '/join') || (!this.isLogin && this.joinRouter == '/profile')) {
+      this.joinRouter = this.isLogin ? '/profile' : '/join'
+      router.push(this.joinRouter)
     }
-    if (location.href.search('/join') != -1 && this.joinRouter == '/profile') {
+    if (location.href.search('/login') != -1 && this.isLogin) {
       router.push('/profile')
-    }
-    if (location.href.search('/profile') != -1 && this.joinRouter == '/join') {
-      router.push('/join')
     }
   },
 })

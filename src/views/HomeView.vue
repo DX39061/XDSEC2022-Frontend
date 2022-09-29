@@ -5,3 +5,9 @@
     <img alt="XDSEC logo" sizes="120" src="../assets/1.webp">
   </div>
 </template>
+
+<style lang="sass">
+.home
+  img
+    max-width: 100%
+</style>

@@ -16,6 +16,7 @@ export interface JoinRequest {
     'learned-technique': string;   // 技术基础
     'learning-experience': string; // 学习经历
     'hobby-and-advantage': string;  // 爱好特长
+    "captcha-token": string;
 }
 
 export function join(request: JoinRequest) {
@@ -31,6 +32,7 @@ export function join(request: JoinRequest) {
 export interface LoginRequest {
     account: string;
     password: string;
+    "captcha-token": string;
 }
 
 export function login(request: LoginRequest) {

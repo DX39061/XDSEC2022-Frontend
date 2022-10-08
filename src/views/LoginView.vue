@@ -39,27 +39,13 @@ import {defineComponent, ref} from 'vue'
 import {FormInst} from "naive-ui";
 import {login, LoginRequest} from "@/api/account";
 import {VueRecaptcha} from "vue3-recaptcha-v2";
-import {verifyCaptcha, VerifyCaptchaRequest} from "@/api/captcha";
 
 export default defineComponent({
   components: {VueRecaptcha},
   methods: {
     captchaVerifyHandler(response: string) {
-      const verifyCaptchaRequest: VerifyCaptchaRequest = {
-        token: response
-      }
-      verifyCaptcha(verifyCaptchaRequest).then((captchaVerified: boolean) => {
-        if (captchaVerified) {
-          this.captchaVerified = true
-          window.$message.success('验证码验证成功')
-        } else {
-          this.captchaVerified = false
-          window.$message.error('验证码验证失败')
-        }
-      }).catch((err: Error) => {
-        this.captchaVerified = false
-        window.$message.error('验证码验证失败 ' + err.message)
-      })
+      this.captchaVerified = true
+      this.captchaToken = response
     },
     disableLogin() {
       if (this.isLogin) {
@@ -82,7 +68,8 @@ export default defineComponent({
         }
         const loginRequest: LoginRequest = {
           account: this.formValue.account,
-          password: this.formValue.password
+          password: this.formValue.password,
+          "captcha-token": this.captchaToken
         }
         login(loginRequest).then(() => {
           window.$message.destroyAll()
@@ -101,10 +88,12 @@ export default defineComponent({
     const formRef = ref<FormInst | null>(null)
     const isLogin = ref(false)
     const captchaVerified = ref(false)
+    const captchaToken = ref('')
     return {
       isLogin,
       formRef,
       captchaVerified,
+      captchaToken,
       formValue: ref({
         account: '',
         password: ''

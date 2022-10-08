@@ -101,28 +101,14 @@ import {FormItemRule, FormInst} from 'naive-ui'
 import {defineComponent, ref} from 'vue'
 import {join, JoinRequest} from "@/api/account";
 import {VueRecaptcha} from "vue3-recaptcha-v2";
-import { verifyCaptcha, VerifyCaptchaRequest } from '@/api/captcha';
 
 export default defineComponent({
   name: 'join-view',
   components: {VueRecaptcha},
   methods: {
     captchaVerifyHandler(response: string) {
-      const verifyCaptchaRequest: VerifyCaptchaRequest = {
-        token: response
-      }
-      verifyCaptcha(verifyCaptchaRequest).then((captchaVerified: boolean) => {
-        if (captchaVerified) {
-          this.captchaVerified = true
-          window.$message.success('验证码验证成功')
-        } else {
-          this.captchaVerified = false
-          window.$message.error('验证码验证失败')
-        }
-      }).catch((err: Error) => {
-        this.captchaVerified = false
-        window.$message.error('验证码验证失败 ' + err.message)
-      })
+      this.captchaVerified = true
+      this.captchaToken = response
     },
     joinHandler() {
       window.$message.loading('提交中，请稍候...')
@@ -151,7 +137,8 @@ export default defineComponent({
           direction: this.formValue.direction,
           'learned-technique': this.formValue.learnedTechnique,
           'learning-experience': this.formValue.learningExperience,
-          'hobby-and-advantage': this.formValue.hobbyAndAdvantage
+          'hobby-and-advantage': this.formValue.hobbyAndAdvantage,
+          'captcha-token': this.captchaToken
         }
         join(joinRequest).then(() => {
           window.$message.destroyAll()
@@ -171,9 +158,11 @@ export default defineComponent({
     const formRef = ref<FormInst | null>(null)
     const isLogin = ref(false)
     const captchaVerified = ref(false)
+    const captchaToken = ref('')
     return {
       isLogin,
       captchaVerified,
+      captchaToken,
       formRef,
       formValue: ref({
             nickName: '',

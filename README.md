@@ -1,5 +1,5 @@
 # xdsec2022-frontend
-
+Fontend of [XDSEC](https://xdsec.org) 2022 recruitment platform
 ## Project setup
 ```
 yarn install
